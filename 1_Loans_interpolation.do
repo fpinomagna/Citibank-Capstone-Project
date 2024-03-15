@@ -7,7 +7,7 @@ Version: 03/2024
 *	This do-file interpolates the financial commitments of outstanding debt stocks 
 *	owed to Non-Paris Club creditors from 2000 to 2023 based on the loan-level data
 
-* 	Note: This do file is not for replication just to provide transparency and document the process 
+* 	Note: This do file is not for replication to provide transparency and document the process 
 * 	behind the interpolation estimation
 
 
@@ -70,12 +70,12 @@ replace dummy_commercial = 1 if strpos(BorrowerProject, "credit line") > 0
 replace dummy_commercial = 1 if strpos(BorrowerProject, "credit loan") > 0 
 replace dummy_commercial = 1 if strpos(BorrowerProject, "CDB") > 0 
 
-* Creating dummy of LoanType
+* Creating a dummy of LoanType
 replace LoanType="Commercial" if LoanType=="" & dummy_commercial==1
 replace LoanType="Concessional" if LoanType=="" & dummy_concessional==1
 replace LoanType="Zero-Interest Loan" if LoanType=="" & dummy_zero==1
 
-* Replacing characteristic in the CODF database (no financial information)
+* Replacing characteristics in the CODF database (no financial information)
 replace LoanType="Commercial" if LoanType=="" & source=="CODF" & (CreditorAgency=="China Development Bank" | CreditorAgency=="China Development Bank (CDB)" | CreditorAgency=="CDB") // Check this again when the team check the variable consistency
 replace LoanType="Concessional" if LoanType=="" & source=="CODF" &   & (CreditorAgency!="China Development Bank" | CreditorAgency!="China Development Bank (CDB)" | CreditorAgency!="CDB") // Check this again when the team check the variable consistency
 
@@ -143,7 +143,7 @@ replace maturity  = 15  if  maturity == . & Creditoriso3=="IND"  & type=="Loan" 
 replace grace    = 5   if  grace   == .  & Creditoriso3=="IND"   & type=="Loan" & IND_country_class==3
 replace interest  = 1.5+LIBOR   if interest == . & Creditoriso3=="IND"  & type=="Loan" & IND_country_class==3
 
-* Saving database with interpolation (.dta and Excel version)
+* Saving database with interpolation (Excel version)
 
 * Specify the desired variable order
 preserve
