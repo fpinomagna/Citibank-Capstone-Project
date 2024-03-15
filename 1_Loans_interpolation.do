@@ -4,14 +4,14 @@ Authors: Cedric Andrä, Anna Bonnuto, Fernando Pino, Erin Li, and Alia Yusuf
 Version: 03/2024
 */
 
-*	This do-file interpolate the financial commitments of outstanding debt stocks 
+*	This do-file interpolates the financial commitments of outstanding debt stocks 
 *	owed to Non-Paris Club creditors from 2000 to 2023 based on the loan-level data
 
-* 	Note: This do file is not for replication just to provided transparency and document the process 
+* 	Note: This do file is not for replication just to provide transparency and document the process 
 * 	behind the interpolation estimation
 
 
-* The database used to run the interpolation correspond to "PanelData" sheet from ""
+* The database used to run the interpolation corresponds to "PanelData"
 
 *****************************
 * Interest rate interpolation 
@@ -20,13 +20,13 @@ Version: 03/2024
 * A. China data
 
 * Merge with the HRT data - Objective: Contains characterisation of loans to identify their interpolation from Horn, Reinhart and Trebesch (2021)
-* The database can be obtained: https://data.mendeley.com/datasets/4mm6kdj4xg/1
+* The database can be obtained https://data.mendeley.com/datasets/4mm6kdj4xg/1
 preserve
 clear all
 * Raw data
-import excel "HRT _ ConsensusDatabase.xlsx", sheet("Data") firstrow clear
+import excel "HRT _ ConsensusDatabase.xlsx", sheet("Data") first row clear
 
-* Renaming with relevant variables of analysis for final database
+* Renaming with relevant variables of analysis for the final database
 rename RecipientCountry BorrowerCountry
 gen Borroweriso3 = substr(ProjectID, 1, 3)
 rename BorrowerType BorrowerType
@@ -82,7 +82,7 @@ replace LoanType="Concessional" if LoanType=="" & source=="CODF" &   & (Creditor
 * B. India data 
 
 * Characterization depends on  IMF's country classification
-* Assumption: Calculation do not include grant component of the loan
+* Assumption: Calculations do not include the grant component of the loan
 
 gen IND_country_class=.
 replace IND_country_class=1 if inlist(BorrowerCountry,"Cote d'Ivoire","Kenya","Mozambique","Rwanda","Senegal") & Creditoriso3=="IND" & type=="Loan"
