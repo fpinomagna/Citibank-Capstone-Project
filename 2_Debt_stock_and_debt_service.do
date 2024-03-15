@@ -4,19 +4,19 @@ Authors: Cedric Andrä, Anna Bonnuto, Fernando Pino, Erin Li, and Alia Yusuf
 Version: 03/2024
 */
 
-*	This do-file applies the methodology to convert flows to debt, and estimate,
+*	This do-file applies the methodology to convert flows to debt and estimate,
 *   and forecast the debt service from 2000 to 2023 based on the loan-level data
 
-* 	Note: This do file is not for replication just to provided transparency and document the process 
+* 	Note: This do file is not for replication to provide transparency and document the process 
 * 	behind the estimation
 
-* The database used to run the methodology correspond to "PanelData"
+* The database used to run the methodology corresponds to "PanelData"
 
 ***************************************
 *Map Flows into Stocks (HTV) + Forecast
 ***************************************
 keep if year>=2000
-keep if inlist(type,"Loan","Swap Use") // We just work with loans and swaps because they have financial information
+keep if inlist(type,"Loan","Swap Use") // We work with loans and swaps because they have financial information
 sort BorrowerCountry year
 
 *Gen End of Grace Period and Maturity Years
@@ -33,7 +33,7 @@ forvalues num = 2000(1)2035 {
 }
 *
 
-*Debt with sluggish disbursement shedule (with sluggish disbursement)
+*Debt with sluggish disbursement schedule (with sluggish disbursement)
 forvalues num = 2000(1)2035 {
 	gen Db_dis`num' = 0
 	quietly replace Db_dis`num' = (AmountMUSD/round(grace, 1))*(`num' - year + 1) if `num' >= year & `num' < EndofGracePeriod
